@@ -1,6 +1,40 @@
 #Prepared by Arvind Radhakrishnen - Open Source
 #Run this code on Google Colab. Upload your fidelity portfolio file 
 
+'''
+
+Attribute	Description
+Account Number	Number assigned to the account
+Account Name	Name of the account
+Symbol	Symbol of the asset
+Description	Description of the asset
+Quantity	Quantity of the asset held in the account
+Last Price	Last traded price of the asset
+Last Price Change	Change in price since the last trade
+Current Value	Total value of the asset at the last traded price
+Today's Gain/Loss Dollar	Dollar amount gained or lost since last trade
+Today's Gain/Loss Percent	Percentage gain or loss since last trade
+Total Gain/Loss Dollar	Total dollar amount gained or lost since purchase
+Total Gain/Loss Percent	Total percentage gain or loss since purchase
+Percent Of Account	Percentage of the asset's value in the total account
+Cost Basis Total	Total cost basis of the asset
+Average Cost Basis	Average cost basis of the asset
+Type	Type of asset (e.g., stock, bond, ETF)
+Target Mean Price	Mean target price of the asset
+Target Median Price	Median target price of the asset
+Three-Year Average Return	Three-year average return of the asset
+Mean Profitability (%)	Mean profitability percentage of the asset
+Median Profitability (%)	Median profitability percentage of the asset
+High Profitability (%)	High profitability percentage of the asset
+Mean Portfolio Value	Mean value of the entire portfolio
+Median Portfolio Value	Median value of the entire portfolio
+High Portfolio Value	High value of the entire portfolio
+Mean Portfolio Gain Possible	Mean possible gain of the entire portfolio
+Median Portfolio Gain Possible	Median possible gain of the entire portfolio
+High Portfolio Gain Possible	High possible gain of the entire portfolio
+
+'''
+
 import yfinance as yf
 def get_target_price(symbol):
   stock = yf.Ticker(symbol)
