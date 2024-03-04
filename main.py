@@ -36,10 +36,11 @@ def get_target_price(symbol):
 # Apply the function to each Symbol in the DataFrame
 def analyze_stock(row):
     symbol = row['Symbol']
-    last_price = row['Last Price']
+    last_price = row['Average Cost Basis']
     quantity = row['Quantity']
+    current_portfolio_value=row['Current Value']
 
-
+    #print(symbol, last_price, quantity)
     target_mean_price, target_median_price, threeYearAverageReturn, targetHighPrice = get_target_price(symbol)
     
     # Convert target prices to float for comparison and calculations
@@ -102,8 +103,23 @@ def analyze_stock(row):
     except:
       last_price = float(last_price)
       
-    last_price = float(last_price)
-    current_portfolio_value = last_price * quantity
+    try:
+      last_price = float(last_price)
+    except:
+      last_price = 0
+
+    try:
+      current_portfolio_value = current_portfolio_value.replace("$", "")
+    except:
+      current_portfolio_value = float(current_portfolio_value)
+    
+    current_portfolio_value = float(current_portfolio_value)
+
+
+    
+
+
+    #current_portfolio_value = last_price * quantity
 
     # Calculate potential gains, with use threeYearAverageReturn as possibility for stocks where we do not have the 
     mean_portfolio_gain_possible = mean_portfolio_value - current_portfolio_value if mean_portfolio_value else threeYearAverageReturn*current_portfolio_value
@@ -127,10 +143,10 @@ df[['Target Mean Price', 'Target Median Price', 'threeYearAverageReturn', 'Mean 
 #df[['Target Mean Price', 'Target Median Price', 'Mean Profitability (%)', 'Median Profitability (%)']] = df.apply(analyze_stock, axis=1)
 
 # Show the updated DataFrame
+#print(df)
 df.to_csv("output.csv")
+
 
 print("Max Gain possible: ",  df['high_portfolio_gain_possible'].sum())
 print("Median Gain Possible:", df['Median Portfolio Gain Possible'].sum())
 print("Average Gain Possible:", df['Mean Portfolio Gain Possible'].sum())
-
-)
