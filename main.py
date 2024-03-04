@@ -2,8 +2,8 @@
 #Run this code on Google Colab. Upload your fidelity portfolio file 
 
 '''
+Attributes sourced from Input File - Fidelity consolidation position export file
 
-Attribute	Description
 Account Number	Number assigned to the account
 Account Name	Name of the account
 Symbol	Symbol of the asset
@@ -20,9 +20,16 @@ Percent Of Account	Percentage of the asset's value in the total account
 Cost Basis Total	Total cost basis of the asset
 Average Cost Basis	Average cost basis of the asset
 Type	Type of asset (e.g., stock, bond, ETF)
+
+
+Attributes derived using Yahoo Finance to estimate price targets
+
 Target Mean Price	Mean target price of the asset
 Target Median Price	Median target price of the asset
 Three-Year Average Return	Three-year average return of the asset
+
+Attributes calculated as part of the logic
+
 Mean Profitability (%)	Mean profitability percentage of the asset
 Median Profitability (%)	Median profitability percentage of the asset
 High Profitability (%)	High profitability percentage of the asset
