@@ -71,6 +71,7 @@ def get_target_price(symbol):
       target_median_price = stock_info.get('targetMedianPrice')
       target_high_price = stock_info.get('targetHighPrice')
       threeYearAverageReturn = stock_info.get('threeYearAverageReturn')
+
     except:
       target_mean_price = 0
       target_median_price = 0
@@ -84,6 +85,10 @@ def analyze_stock(row):
     last_price = row['Average Cost Basis']
     quantity = row['Quantity']
     current_portfolio_value=row['Current Value']
+    last_price = row['Last Price']
+    cost_basis_total = row['Cost Basis Total']
+    total_gain_loss = row['Total Gain/Loss Dollar']
+
 
     #print(symbol, last_price, quantity)
     target_mean_price, target_median_price, threeYearAverageReturn, targetHighPrice = get_target_price(symbol)
@@ -160,11 +165,23 @@ def analyze_stock(row):
     
     current_portfolio_value = float(current_portfolio_value)
 
+    try:
+      total_gain_loss = total_gain_loss.replace("$", "")
+      total_gain_loss = total_gain_loss.replace("--", "0")
+
+    except:
+      total_gain_loss = float(total_gain_loss)
+
+    total_gain_loss = float(total_gain_loss)
+
+    
+
+    #current_portfolio_value = last_price * quantity
 
     # Calculate potential gains, with use threeYearAverageReturn as possibility for stocks where we do not have the 
-    mean_portfolio_gain_possible = mean_portfolio_value - current_portfolio_value if mean_portfolio_value else threeYearAverageReturn*current_portfolio_value
-    median_portfolio_gain_possible = median_portfolio_value - current_portfolio_value if median_portfolio_value else threeYearAverageReturn*current_portfolio_value
-    high_portfolio_gain_possible = high_portfolio_value - current_portfolio_value if high_portfolio_value else threeYearAverageReturn*current_portfolio_value
+    mean_portfolio_gain_possible = mean_portfolio_value - current_portfolio_value if mean_portfolio_value else (threeYearAverageReturn*current_portfolio_value) + total_gain_loss
+    median_portfolio_gain_possible = median_portfolio_value - current_portfolio_value if median_portfolio_value else (threeYearAverageReturn*current_portfolio_value)  + total_gain_loss
+    high_portfolio_gain_possible = high_portfolio_value - current_portfolio_value if high_portfolio_value else (threeYearAverageReturn*current_portfolio_value) +   total_gain_loss
 
 
     return pd.Series([
@@ -185,8 +202,6 @@ df[['Target Mean Price', 'Target Median Price', 'threeYearAverageReturn', 'Mean 
 # Show the updated DataFrame
 #print(df)
 df.to_csv("output.csv")
-
-#download the above CSV file 
 
 df['Cost Basis Total'] = df['Cost Basis Total'].str.replace('$', '')
 df['Cost Basis Total'] = df['Cost Basis Total'].str.replace('--', '0')
