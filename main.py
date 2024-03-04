@@ -147,6 +147,26 @@ df.to_csv("output.csv")
 
 #download the above CSV file 
 
-print("Max Gain possible: ",  df['high_portfolio_gain_possible'].sum())
-print("Median Gain Possible:", df['Median Portfolio Gain Possible'].sum())
-print("Average Gain Possible:", df['Mean Portfolio Gain Possible'].sum())
+df['Cost Basis Total'] = df['Cost Basis Total'].str.replace('$', '')
+df['Cost Basis Total'] = df['Cost Basis Total'].str.replace('--', '0')
+
+# Convert NaN values to 0
+df['Cost Basis Total'] = df['Cost Basis Total'].fillna('0')
+
+print(df['Cost Basis Total'])
+
+
+# Convert values to float
+df['Cost Basis Total'] = df['Cost Basis Total'].astype(float)
+cost_basis_total = df['Cost Basis Total'].sum()
+
+print(cost_basis_total)
+max_gain_possible = df['high_portfolio_gain_possible'].sum()/cost_basis_total
+median_gain_possible = df['Median Portfolio Gain Possible'].sum()/cost_basis_total
+avg_gain_possible = df['Mean Portfolio Gain Possible'].sum()/cost_basis_total
+
+
+print("Max Gain possible: ",  df['high_portfolio_gain_possible'].sum() , " against a total cost basis of ", df['Cost Basis Total'].sum(), " which is ", float(max_gain_possible*100), "%")
+print("Median Gain Possible:", df['Median Portfolio Gain Possible'].sum() , " against a total cost basis of ", df['Cost Basis Total'].sum(), " which is ", float(median_gain_possible*100), "%")
+print("Average Gain Possible:", df['Mean Portfolio Gain Possible'].sum() , " against a total cost basis of ", df['Cost Basis Total'].sum(), " which is ", float(avg_gain_possible*100), "%")
+
