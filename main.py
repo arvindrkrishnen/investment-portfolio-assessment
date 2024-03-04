@@ -1,3 +1,6 @@
+#Prepared by Arvind Radhakrishnen - Open Source
+#Run this code on Google Colab. Upload your fidelity portfolio file 
+
 import yfinance as yf
 def get_target_price(symbol):
   stock = yf.Ticker(symbol)
@@ -13,6 +16,7 @@ def get_target_price(symbol):
 
 
 import pandas as pd
+#update the location of your fidelity portfolio positions file here in Colab
 df = pd.read_csv("/content/Portfolio_Positions_Mar-03-2024.csv")
 
 # Define the get_target_price function
@@ -116,11 +120,6 @@ def analyze_stock(row):
     current_portfolio_value = float(current_portfolio_value)
 
 
-    
-
-
-    #current_portfolio_value = last_price * quantity
-
     # Calculate potential gains, with use threeYearAverageReturn as possibility for stocks where we do not have the 
     mean_portfolio_gain_possible = mean_portfolio_value - current_portfolio_value if mean_portfolio_value else threeYearAverageReturn*current_portfolio_value
     median_portfolio_gain_possible = median_portfolio_value - current_portfolio_value if median_portfolio_value else threeYearAverageReturn*current_portfolio_value
@@ -146,6 +145,7 @@ df[['Target Mean Price', 'Target Median Price', 'threeYearAverageReturn', 'Mean 
 #print(df)
 df.to_csv("output.csv")
 
+#download the above CSV file 
 
 print("Max Gain possible: ",  df['high_portfolio_gain_possible'].sum())
 print("Median Gain Possible:", df['Median Portfolio Gain Possible'].sum())
